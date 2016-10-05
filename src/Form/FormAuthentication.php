@@ -1,15 +1,17 @@
 <?php
 
-namespace Chubbyphp\Security;
+namespace Chubbyphp\Security\Form;
 
 use Chubbyphp\Model\RepositoryInterface;
+use Chubbyphp\Security\AuthenticationInterface;
 use Chubbyphp\Security\Exception\EmptyPasswordException;
 use Chubbyphp\Security\Exception\InvalidPasswordException;
 use Chubbyphp\Security\Exception\UserNotFoundException;
+use Chubbyphp\Security\FormAuthenticationUserInterface;
 use Chubbyphp\Session\SessionInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class FormAuth implements AuthInterface
+final class FormAuthentication implements AuthenticationInterface
 {
     /**
      * @var SessionInterface
@@ -22,7 +24,7 @@ final class FormAuth implements AuthInterface
     private $userRepository;
 
     /**
-     * @param SessionInterface        $session
+     * @param SessionInterface    $session
      * @param RepositoryInterface $userRepository
      */
     public function __construct(SessionInterface $session, RepositoryInterface $userRepository)
@@ -41,7 +43,7 @@ final class FormAuth implements AuthInterface
     {
         $data = $request->getParsedBody();
 
-        /** @var UserInterface $user */
+        /** @var FormAuthenticationUserInterface $user */
         if (null === $user = $this->userRepository->findOneBy(['email' => $data['email']])) {
             throw UserNotFoundException::create($data['email']);
         }
@@ -74,7 +76,7 @@ final class FormAuth implements AuthInterface
     /**
      * @param Request $request
      *
-     * @return UserInterface|null
+     * @return FormAuthenticationUserInterface|null
      */
     public function getAuthenticatedUser(Request $request)
     {

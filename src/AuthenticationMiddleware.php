@@ -6,17 +6,17 @@ use Chubbyphp\ErrorHandler\HttpException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-final class AuthMiddleware
+final class AuthenticationMiddleware
 {
     /**
-     * @var AuthInterface
+     * @var AuthenticationInterface
      */
     private $auth;
 
     /**
-     * @param AuthInterface $auth
+     * @param AuthenticationInterface $auth
      */
-    public function __construct(AuthInterface $auth)
+    public function __construct(AuthenticationInterface $auth)
     {
         $this->auth = $auth;
     }

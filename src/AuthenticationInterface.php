@@ -2,11 +2,11 @@
 
 namespace Chubbyphp\Security;
 
+use Chubbyphp\Model\ModelInterface;
 use Chubbyphp\Security\Exception\AbstractLoginException;
-use Chubbyphp\Security\Exception\EmptyPasswordException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-interface AuthInterface
+interface AuthenticationInterface
 {
     const USER_KEY = 'user';
 
@@ -32,16 +32,7 @@ interface AuthInterface
     /**
      * @param Request $request
      *
-     * @return UserInterface|null
+     * @return ModelInterface|null
      */
     public function getAuthenticatedUser(Request $request);
-
-    /**
-     * @param string $password
-     *
-     * @throws EmptyPasswordException
-     *
-     * @return string
-     */
-    public function hashPassword(string $password): string;
 }

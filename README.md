@@ -17,7 +17,7 @@ A simple security solution.
 
 ## Suggest
 
- * chubbyphp/chubbyphp-session": ~1.0@dev
+ * chubbyphp/chubbyphp-session: ~1.0@dev
  * pimple/pimple: ~3.0
 
 ## Installation
