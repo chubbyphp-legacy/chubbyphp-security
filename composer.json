@@ -1,0 +1,33 @@
+{
+    "name": "chubbyphp/chubbyphp-security",
+    "description": "Chubbyphp Security",
+    "keywords": ["chubbyphp", "slim", "security"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dominik Zogg",
+            "email": "dominik.zogg@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~7.0",
+        "chubbyphp/chubbyphp-error-handler": "~1.0@dev",
+        "chubbyphp/chubbyphp-model": "~1.0@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.5",
+        "chubbyphp/chubbyphp-session": "~1.0@dev",
+        "pimple/pimple": "~3.0"
+    },
+    "suggest": {
+        "pimple/pimple": "Is needed for the SecurityProvider"
+    },
+    "autoload": {
+        "psr-4": { "Chubbyphp\\Security\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
