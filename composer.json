@@ -20,6 +20,7 @@
         "pimple/pimple": "~3.0"
     },
     "suggest": {
+        "chubbyphp/chubbyphp-session": "Is needed for the FormAuth usage.",
         "pimple/pimple": "Is needed for the SecurityProvider"
     },
     "autoload": {
