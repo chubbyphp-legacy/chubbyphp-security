@@ -4,7 +4,7 @@ namespace Chubbyphp\Security\Authentication;
 
 use Chubbyphp\Model\ModelInterface;
 
-interface FormAuthenticationUserInterface extends ModelInterface
+interface UserCredentialsInterface extends ModelInterface
 {
     /**
      * @return string
