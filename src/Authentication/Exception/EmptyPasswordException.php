@@ -1,6 +1,6 @@
 <?php
 
-namespace Chubbyphp\Security\Exception;
+namespace Chubbyphp\Security\Authentication\Exception;
 
 final class EmptyPasswordException extends \Exception
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Chubbyphp\Security;
+namespace Chubbyphp\Security\Authentication;
 
 use Chubbyphp\Model\ModelInterface;
-use Chubbyphp\Security\Exception\AbstractLoginException;
+use Chubbyphp\Security\Authentication\Exception\AbstractLoginException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 interface AuthenticationInterface

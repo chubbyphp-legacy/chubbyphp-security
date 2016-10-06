@@ -1,13 +1,13 @@
 <?php
 
-namespace Chubbyphp\Security\Form;
+namespace Chubbyphp\Security\Authentication\Form;
 
 use Chubbyphp\Model\RepositoryInterface;
-use Chubbyphp\Security\AuthenticationInterface;
-use Chubbyphp\Security\Exception\EmptyPasswordException;
-use Chubbyphp\Security\Exception\InvalidPasswordException;
-use Chubbyphp\Security\Exception\UserNotFoundException;
-use Chubbyphp\Security\FormAuthenticationUserInterface;
+use Chubbyphp\Security\Authentication\AuthenticationInterface;
+use Chubbyphp\Security\Authentication\Exception\EmptyPasswordException;
+use Chubbyphp\Security\Authentication\Exception\InvalidPasswordException;
+use Chubbyphp\Security\Authentication\Exception\UserNotFoundException;
+use Chubbyphp\Security\Authentication\FormAuthenticationUserInterface;
 use Chubbyphp\Session\SessionInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

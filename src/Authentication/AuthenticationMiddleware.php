@@ -1,6 +1,6 @@
 <?php
 
-namespace Chubbyphp\Security;
+namespace Chubbyphp\Security\Authentication;
 
 use Chubbyphp\ErrorHandler\HttpException;
 use Psr\Http\Message\ServerRequestInterface as Request;
