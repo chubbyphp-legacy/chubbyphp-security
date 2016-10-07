@@ -2,7 +2,6 @@
 
 namespace Chubbyphp\Security\Authorization;
 
-use Chubbyphp\Model\ModelInterface;
 use Chubbyphp\Security\UserInterface;
 
 final class RoleAuthorization implements AuthorizationInterface
@@ -21,14 +20,18 @@ final class RoleAuthorization implements AuthorizationInterface
     }
 
     /**
-     * @param UserInterface       $user
-     * @param mixed               $attributes
-     * @param ModelInterface|null $model
+     * @param UserInterface                  $user
+     * @param mixed                          $attributes
+     * @param OwnedByUserModelInterface|null $model
      *
      * @return bool
      */
-    public function isGranted(UserInterface $user, $attributes, ModelInterface $model = null): bool
+    public function isGranted(UserInterface $user, $attributes, OwnedByUserModelInterface $model = null): bool
     {
+        if (null !== $model && $user->getId() !== $model->getOwnedByUserId()) {
+            return false;
+        }
+
         $owningRoles = $this->getOwningRoles($user);
         $neededRoles = $this->getNeededRoles($attributes);
 
