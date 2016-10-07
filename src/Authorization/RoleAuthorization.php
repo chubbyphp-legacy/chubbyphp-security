@@ -13,11 +13,6 @@ final class RoleAuthorization implements AuthorizationInterface
     private $roleHierarchy;
 
     /**
-     * @var array
-     */
-    private $cachedResolvedHierarchies;
-
-    /**
      * @param array $roleHierarchy
      */
     public function __construct(array $roleHierarchy = [])
@@ -47,14 +42,7 @@ final class RoleAuthorization implements AuthorizationInterface
      */
     private function getOwningRoles(UserInterface $user): array
     {
-        $roles = $user->getRoles();
-        $rolesHash = serialize($roles);
-
-        if (!isset($this->cachedResolvedHierarchies[$rolesHash])) {
-            $this->cachedResolvedHierarchies[$rolesHash] = $this->resolveRoleHierarchy($user->getRoles());
-        }
-
-        return $this->cachedResolvedHierarchies[$rolesHash];
+        return $this->resolveRoleHierarchy($user->getRoles());
     }
 
     /**
