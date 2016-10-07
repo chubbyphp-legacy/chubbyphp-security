@@ -2,21 +2,11 @@
 
 namespace Chubbyphp\Security\Authentication;
 
-use Chubbyphp\Model\ModelInterface;
-use Chubbyphp\Security\Authentication\Exception\AbstractLoginException;
+use Chubbyphp\Security\UserInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 interface AuthenticationInterface
 {
-    const USER_KEY = 'user';
-
-    /**
-     * @param Request $request
-     *
-     * @throws AbstractLoginException
-     */
-    public function login(Request $request);
-
     /**
      * @param Request $request
      *
@@ -27,7 +17,7 @@ interface AuthenticationInterface
     /**
      * @param Request $request
      *
-     * @return ModelInterface|null
+     * @return UserInterface|null
      */
     public function getAuthenticatedUser(Request $request);
 }

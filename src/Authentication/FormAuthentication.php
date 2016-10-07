@@ -16,6 +16,8 @@ final class FormAuthentication implements AuthenticationInterface
      */
     private $session;
 
+    const USER_KEY = 'u';
+
     /**
      * @var RepositoryInterface
      */
@@ -41,7 +43,7 @@ final class FormAuthentication implements AuthenticationInterface
     {
         $data = $request->getParsedBody();
 
-        /** @var UserCredentialsInterface $user */
+        /** @var UserPasswordInterface $user */
         if (null === $user = $this->userRepository->findOneBy(['username' => $data['username']])) {
             throw UserNotFoundException::create($data['username']);
         }
@@ -74,7 +76,7 @@ final class FormAuthentication implements AuthenticationInterface
     /**
      * @param Request $request
      *
-     * @return UserCredentialsInterface|null
+     * @return UserPasswordInterface|null
      */
     public function getAuthenticatedUser(Request $request)
     {
