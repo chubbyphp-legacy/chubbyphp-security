@@ -67,9 +67,9 @@ final class FormAuthentication implements AuthenticationInterface
     }
 
     /**
-     * @param array $data
+     * @param array|null $data
      */
-    private function checkingRequirements(array $data)
+    private function checkingRequirements($data)
     {
         $fields = [];
         if (!isset($data['username'])) {
