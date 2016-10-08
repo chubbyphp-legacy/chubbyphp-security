@@ -77,7 +77,11 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
     private function getUser(string $id, array $roles): UserInterface
     {
         /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMockBuilder(UserInterface::class)->setMethods(['getRoles'])->getMockForAbstractClass();
+        $user = $this
+            ->getMockBuilder(UserInterface::class)
+            ->setMethods(['getId', 'getRoles'])
+            ->getMockForAbstractClass()
+        ;
 
         $user->expects(self::any())->method('getId')->willReturn($id);
         $user->expects(self::any())->method('getRoles')->willReturn($roles);
@@ -95,7 +99,7 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
         /** @var OwnedByUserModelInterface|\PHPUnit_Framework_MockObject_MockObject $model */
         $model = $this
             ->getMockBuilder(OwnedByUserModelInterface::class)
-            ->setMethods(['getRoles'])
+            ->setMethods(['getOwnedByUserId'])
             ->getMockForAbstractClass()
         ;
 

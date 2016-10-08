@@ -11,32 +11,34 @@ final class AuthenticationMiddleware
     /**
      * @var AuthenticationInterface
      */
-    private $auth;
+    private $authentication;
 
     /**
-     * @param AuthenticationInterface $auth
+     * @param AuthenticationInterface $authentication
      */
-    public function __construct(AuthenticationInterface $auth)
+    public function __construct(AuthenticationInterface $authentication)
     {
-        $this->auth = $auth;
+        $this->authentication = $authentication;
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @param callable $next
+     * @param Request       $request
+     * @param Response      $response
+     * @param callable|null $next
      *
      * @return Response
      *
      * @throws HttpException
      */
-    public function __invoke(Request $request, Response $response, callable $next)
+    public function __invoke(Request $request, Response $response, callable $next = null)
     {
-        if (!$this->auth->isAuthenticated($request)) {
+        if (!$this->authentication->isAuthenticated($request)) {
             throw HttpException::create($request, $response, 401);
         }
 
-        $response = $next($request, $response);
+        if (null !== $next) {
+            $response = $next($request, $response);
+        }
 
         return $response;
     }

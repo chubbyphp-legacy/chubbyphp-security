@@ -3,14 +3,20 @@
 namespace Chubbyphp\Security\Authentication;
 
 use Chubbyphp\Model\RepositoryInterface;
-use Chubbyphp\Security\Authentication\Exception\EmptyPasswordException;
+use Chubbyphp\Security\Authentication\Exception\AuthenticationExceptionInterface;
 use Chubbyphp\Security\Authentication\Exception\InvalidPasswordException;
+use Chubbyphp\Security\Authentication\Exception\MissingRequirementException;
 use Chubbyphp\Security\Authentication\Exception\UserNotFoundException;
 use Chubbyphp\Session\SessionInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class FormAuthentication implements AuthenticationInterface
 {
+    /**
+     * @var PasswordManagerInterface
+     */
+    private $passwordManager;
+
     /**
      * @var SessionInterface
      */
@@ -24,11 +30,16 @@ final class FormAuthentication implements AuthenticationInterface
     private $userRepository;
 
     /**
-     * @param SessionInterface    $session
-     * @param RepositoryInterface $userRepository
+     * @param PasswordManagerInterface $passwordManager
+     * @param SessionInterface         $session
+     * @param RepositoryInterface      $userRepository
      */
-    public function __construct(SessionInterface $session, RepositoryInterface $userRepository)
-    {
+    public function __construct(
+        PasswordManagerInterface $passwordManager,
+        SessionInterface $session,
+        RepositoryInterface $userRepository
+    ) {
+        $this->passwordManager = $passwordManager;
         $this->session = $session;
         $this->userRepository = $userRepository;
     }
@@ -36,23 +47,44 @@ final class FormAuthentication implements AuthenticationInterface
     /**
      * @param Request $request
      *
-     * @throws InvalidPasswordException
-     * @throws UserNotFoundException
+     * @throws AuthenticationExceptionInterface
      */
     public function login(Request $request)
     {
         $data = $request->getParsedBody();
+        $this->checkingRequirements($data);
 
         /** @var UserPasswordInterface $user */
         if (null === $user = $this->userRepository->findOneBy(['username' => $data['username']])) {
-            throw UserNotFoundException::create($data['username']);
+            throw UserNotFoundException::create(['username' => $data['username']]);
         }
 
-        if (!password_verify($data['password'], $user->getPassword())) {
+        if (!$this->passwordManager->verify($data['password'], $user->getPassword())) {
             throw InvalidPasswordException::create();
         }
 
         $this->session->set($request, self::USER_KEY, $user->getId());
+    }
+
+    /**
+     * @param array $data
+     */
+    private function checkingRequirements(array $data)
+    {
+        $fields = [];
+        if (!isset($data['username'])) {
+            $fields[] = 'username';
+        }
+
+        if (!isset($data['password'])) {
+            $fields[] = 'password';
+        }
+
+        if ([] === $fields) {
+            return;
+        }
+
+        throw MissingRequirementException::create($fields);
     }
 
     /**
@@ -86,22 +118,15 @@ final class FormAuthentication implements AuthenticationInterface
 
         $id = $this->session->get($request, self::USER_KEY);
 
-        return $this->userRepository->find($id);
-    }
+        $user = $this->userRepository->find($id);
 
-    /**
-     * @param string $password
-     *
-     * @return string
-     *
-     * @throws EmptyPasswordException
-     */
-    public function hashPassword(string $password): string
-    {
-        if ('' === $password) {
-            throw EmptyPasswordException::create();
+        // remove from storage, but still a id in session
+        if (null === $user) {
+            $this->session->remove($request, self::USER_KEY);
+
+            return null;
         }
 
-        return password_hash($password, PASSWORD_DEFAULT);
+        return $user;
     }
 }

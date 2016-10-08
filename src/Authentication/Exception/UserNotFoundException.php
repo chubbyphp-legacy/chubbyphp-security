@@ -2,15 +2,30 @@
 
 namespace Chubbyphp\Security\Authentication\Exception;
 
-final class UserNotFoundException extends AbstractLoginException
+final class UserNotFoundException extends \RuntimeException implements AuthenticationExceptionInterface
 {
     /**
-     * @param string $email
+     * @param array $criteria
      *
      * @return UserNotFoundException
      */
-    public static function create(string $email): self
+    public static function create(array $criteria): self
     {
-        return new self(sprintf('User not found with email %s', $email));
+        return new self(sprintf('User not found with criteria %s', self::getCriteriaAsSting($criteria)));
+    }
+
+    /**
+     * @param array $criteria
+     *
+     * @return string
+     */
+    private static function getCriteriaAsSting(array $criteria): string
+    {
+        $criteriaString = '';
+        foreach ($criteria as $key => $value) {
+            $criteriaString .= $key.': '.$value.', ';
+        }
+
+        return substr($criteriaString, 0, -2);
     }
 }
