@@ -67,7 +67,7 @@ final class FormAuthentication implements AuthenticationInterface
     }
 
     /**
-     * @param array|null $data
+     * @param null|array|object $data
      */
     private function checkingRequirements($data)
     {
