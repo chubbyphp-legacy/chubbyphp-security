@@ -40,6 +40,8 @@ $container->register(new AuthenticationProvider);
 
 $container['security.authentication.key'] = 'security.authentication.formauthentication';
 $container['security.userrepository.key'] = 'my.user.repository';
+
+$container['security.authentication']->isAuthenticated($request);
 ```
 
 #### AuthenticationMiddleware
@@ -95,8 +97,9 @@ use Pimple\Container;
 $container->register(new AuthorizationProvider);
 
 $container['security.authorization.key'] = 'security.authorization.roleauthorization';
-```
 
+$container['security.authorization']->isGranted($user, 'USER_EDIT');
+```
 
 #### RoleAuthorization
 
