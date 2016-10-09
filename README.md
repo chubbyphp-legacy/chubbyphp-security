@@ -26,6 +26,67 @@ Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-security][1].
 
 ## Usage
 
+### Authentication
+
+#### AuthenticationMiddleware
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authentication\AuthenticationMiddleware;
+use Chubbyphp\Security\Authentication\FormAuthentication;
+
+$middleware = new AuthenticationMiddleware(new FormAuthentication(...));
+$middleware($request, $response);
+```
+
+#### FormAuthentication
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authentication\FormAuthentication;
+use Chubbyphp\Security\Authentication\PasswordManager;
+use Chubbyphp\Session\Session;
+
+$authentication = new FormAuthentication(new PasswordManager, new Session, ...);
+$authentication->login($request);
+$authentication->logout($request);
+$authentication->isAuthenticated($request);
+$authentication->getAuthenticatedUser($request);
+```
+
+#### PasswordManager
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authentication\PasswordManager;
+
+$manager = new PasswordManager();
+$hash = $manager->hash('password');
+$manager->verify('password', $hash);
+```
+
+### Authorization
+
+#### RoleAuthorization
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authorization\RoleAuthorization;
+
+$user->setRoles(['ADMIN']);
+
+$authorization = new RoleAuthorization([
+    'ADMIN' => ['USER_MANAGEMENT'],
+    'USER_MANAGEMENT' => ['USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE']
+]);
+
+$authorization->isGranted($user, 'USER_EDIT'); // true
+```
+
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-security
 
 ## Copyright
