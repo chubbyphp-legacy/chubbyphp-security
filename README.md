@@ -28,6 +28,20 @@ Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-security][1].
 
 ### Authentication
 
+#### AuthenticationProvider (Pimple)
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authentication\AuthenticationProvider;
+use Pimple\Container;
+
+$container->register(new AuthenticationProvider);
+
+$container['security.authentication.key'] = 'security.authentication.formauthentication';
+$container['security.userrepository.key'] = 'my.user.repository';
+```
+
 #### AuthenticationMiddleware
 
 ```{.php}
@@ -69,6 +83,20 @@ $manager->verify('password', $hash);
 ```
 
 ### Authorization
+
+#### AuthorizationProvider (Pimple)
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authorization\AuthorizationProvider;
+use Pimple\Container;
+
+$container->register(new AuthorizationProvider);
+
+$container['security.authorization.key'] = 'security.authorization.roleauthorization';
+```
+
 
 #### RoleAuthorization
 
