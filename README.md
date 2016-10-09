@@ -98,6 +98,16 @@ $container->register(new AuthorizationProvider);
 
 $container['security.authorization.key'] = 'security.authorization.roleauthorization';
 
+$container->extend(
+    'security.authorization.roleauthorization.roleHierarchy',
+    function (array $roleHierarchy) use ($container) {
+        $roleHierarchy['ADMIN'] = ['USER_MANAGEMENT'];
+        $roleHierarchy['USER_MANAGEMENT'] = ['USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE'];
+
+        return $roleHierarchy;
+    }
+);
+
 $container['security.authorization']->isGranted($user, 'USER_EDIT');
 ```
 
