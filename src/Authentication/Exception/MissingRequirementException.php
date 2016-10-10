@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chubbyphp\Security\Authentication\Exception;
 
 final class MissingRequirementException extends \RuntimeException implements AuthenticationExceptionInterface

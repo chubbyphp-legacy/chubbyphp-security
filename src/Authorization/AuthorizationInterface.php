@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chubbyphp\Security\Authorization;
 
 use Chubbyphp\Security\UserInterface;

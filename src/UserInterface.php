@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chubbyphp\Security;
 
 use Chubbyphp\Model\ModelInterface;

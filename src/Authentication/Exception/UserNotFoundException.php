@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chubbyphp\Security\Authentication\Exception;
 
 final class UserNotFoundException extends \RuntimeException implements AuthenticationExceptionInterface
