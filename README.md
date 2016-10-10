@@ -34,12 +34,16 @@ Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-security][1].
 <?php
 
 use Chubbyphp\Security\Authentication\AuthenticationProvider;
+use Chubbyphp\Security\Authentication\FormAuthentication;
 use Pimple\Container;
 
 $container->register(new AuthenticationProvider);
 
-$container['security.authentication.key'] = 'security.authentication.formauthentication';
-$container['security.userrepository.key'] = 'my.user.repository';
+$container->extend('security.authentication.authentications', function (array $authentications) use ($container) {
+    $authentications[] = new FormAuthentication(...);
+
+    return $authentications;
+});
 
 $container['security.authentication']->isAuthenticated($request);
 ```
@@ -92,21 +96,16 @@ $manager->verify('password', $hash);
 <?php
 
 use Chubbyphp\Security\Authorization\AuthorizationProvider;
+use Chubbyphp\Security\Authorization\RoleAuthorization;
 use Pimple\Container;
 
 $container->register(new AuthorizationProvider);
 
-$container['security.authorization.key'] = 'security.authorization.roleauthorization';
+$container->extend('security.authorization.authorizations', function (array $authorizations) use ($container) {
+    $authorizations[] = new RoleAuthorization(...);
 
-$container->extend(
-    'security.authorization.roleauthorization.roleHierarchy',
-    function (array $roleHierarchy) use ($container) {
-        $roleHierarchy['ADMIN'] = ['USER_MANAGEMENT'];
-        $roleHierarchy['USER_MANAGEMENT'] = ['USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE'];
-
-        return $roleHierarchy;
-    }
-);
+    return $$authorizations;
+});
 
 $container['security.authorization']->isGranted($user, 'USER_EDIT');
 ```

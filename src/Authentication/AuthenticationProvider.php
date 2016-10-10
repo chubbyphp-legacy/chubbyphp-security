@@ -25,19 +25,12 @@ final class AuthenticationProvider implements ServiceProviderInterface
      */
     private function registerAuthentication(Container $container)
     {
-        $container['security.authentication.key'] = '';
-        $container['security.userrepository.key'] = '';
-
-        $container['security.authentication.formauthentication'] = function ($container) {
-            return new FormAuthentication(
-                $container['security.authentication.passwordmanager'],
-                $container['session'],
-                $container[$container['security.userrepository.key']]
-            );
+        $container['security.authentication.authentications'] = function () {
+            return [];
         };
 
         $container['security.authentication'] = function () use ($container) {
-            return $container[$container['security.authentication.key']];
+            return new AuthenticationStack($container['security.authentication.authentications']);
         };
     }
 

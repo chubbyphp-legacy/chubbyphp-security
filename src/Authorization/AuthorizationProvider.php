@@ -12,18 +12,12 @@ final class AuthorizationProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['security.authorization.key'] = '';
-
-        $container['security.authorization.roleauthorization.roleHierarchy'] = function () {
+        $container['security.authorization.authorizations'] = function () use ($container) {
             return [];
         };
 
-        $container['security.authorization.roleauthorization'] = function ($container) {
-            return new RoleAuthorization($container['security.authorization.roleauthorization.roleHierarchy']);
-        };
-
         $container['security.authorization'] = function () use ($container) {
-            return $container[$container['security.authorization.key']];
+            return new AuthorizationStack($container['security.authorization.authorizations']);
         };
     }
 }
