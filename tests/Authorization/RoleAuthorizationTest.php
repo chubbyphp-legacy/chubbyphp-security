@@ -4,6 +4,7 @@ namespace Chubbyphp\Tests\Security\Authorization;
 
 use Chubbyphp\Security\Authorization\OwnedByUserModelInterface;
 use Chubbyphp\Security\Authorization\RoleAuthorization;
+use Chubbyphp\Security\Authorization\RoleHierarchyResolverInterface;
 use Chubbyphp\Security\UserInterface;
 
 /**
@@ -13,7 +14,7 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
 {
     public function testWithoutHierarchy()
     {
-        $authorization = new RoleAuthorization();
+        $authorization = new RoleAuthorization($this->getRoleHierarchyResolver());
 
         self::assertFalse($authorization->isGranted($this->getUser('id1', ['USER_VIEW']), ['USER_EDIT', 'USER_VIEW']));
         self::assertTrue($authorization->isGranted($this->getUser('id1', ['USER_EDIT', 'USER_VIEW']), ['USER_VIEW']));
@@ -21,27 +22,16 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
 
     public function testWithHierarchy()
     {
-        $authorization = new RoleAuthorization([
-            'ADMIN' => ['MANAGE_USER'],
-            'MANAGE_USER' => ['USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE'],
-        ]);
+        $authorization = new RoleAuthorization(
+            $this->getRoleHierarchyResolver(['USER_EDIT', 'USER_VIEW'])
+        );
 
         self::assertTrue($authorization->isGranted($this->getUser('id1', ['ADMIN']), ['USER_EDIT', 'USER_VIEW']));
     }
 
-    public function testWithHierarchyInception()
-    {
-        $authorization = new RoleAuthorization([
-            'SUPER_ADMIN' => ['ADMIN'],
-            'ADMIN' => ['SUPER_ADMIN'],
-        ]);
-
-        self::assertTrue($authorization->isGranted($this->getUser('id1', ['ADMIN']), ['SUPER_ADMIN']));
-    }
-
     public function testWithoutHierarchyAndModel()
     {
-        $authorization = new RoleAuthorization();
+        $authorization = new RoleAuthorization($this->getRoleHierarchyResolver());
 
         self::assertFalse($authorization->isGranted(
             $this->getUser('id1', ['USER_VIEW']),
@@ -66,6 +56,34 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
             ['USER_VIEW'],
             $this->getModel('id2')
         ));
+    }
+
+    /**
+     * @param array $resolvedRoles
+     *
+     * @return RoleHierarchyResolverInterface
+     */
+    private function getRoleHierarchyResolver(array $resolvedRoles = []): RoleHierarchyResolverInterface
+    {
+        /** @var RoleHierarchyResolverInterface|\PHPUnit_Framework_MockObject_MockObject $resolver */
+        $resolver = $this
+            ->getMockBuilder(RoleHierarchyResolverInterface::class)
+            ->setMethods(['resolve'])
+            ->getMockForAbstractClass()
+        ;
+
+        $resolver
+            ->expects(self::any())
+            ->method('resolve')
+            ->willReturnCallback(function (array $roles) use ($resolvedRoles) {
+                $allRoles = array_merge($roles, $resolvedRoles);
+                sort($allRoles);
+
+                return $allRoles;
+            })
+        ;
+
+        return $resolver;
     }
 
     /**

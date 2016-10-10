@@ -101,6 +101,15 @@ use Pimple\Container;
 
 $container->register(new AuthorizationProvider);
 
+$container->extend('security.authorization.rolehierarchy', function (array $rolehierarchy) use ($container) {
+    $rolehierarchy['ADMIN'] = ['USER_MANAGEMENT'];
+    $rolehierarchy['USER_MANAGEMENT'] = ['USER_LIST', 'USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE'];
+
+    return $rolehierarchy;
+});
+
+$container['security.authorization.rolehierarchyresolver']->resolve($roles);
+
 $container->extend('security.authorization.authorizations', function (array $authorizations) use ($container) {
     $authorizations[] = new RoleAuthorization(...);
 
@@ -116,15 +125,34 @@ $container['security.authorization']->isGranted($user, 'USER_EDIT');
 <?php
 
 use Chubbyphp\Security\Authorization\RoleAuthorization;
+use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
 
 $user->setRoles(['ADMIN']);
 
-$authorization = new RoleAuthorization([
+$resolver = new RoleHierarchyResolver([
     'ADMIN' => ['USER_MANAGEMENT'],
     'USER_MANAGEMENT' => ['USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE']
 ]);
 
+$authorization = new RoleAuthorization($resolver);
 $authorization->isGranted($user, 'USER_EDIT'); // true
+```
+
+#### RoleHierarchyResolver
+
+```{.php}
+<?php
+
+use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
+
+$user->setRoles(['ADMIN']);
+
+$resolver = new RoleHierarchyResolver([
+    'ADMIN' => ['USER_MANAGEMENT'],
+    'USER_MANAGEMENT' => ['USER_CREATE', 'USER_EDIT', 'USER_VIEW', 'USER_DELETE']
+]);
+
+$resolver->resolve(['ADMIN']);
 ```
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-security

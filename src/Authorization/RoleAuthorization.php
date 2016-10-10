@@ -11,14 +11,14 @@ final class RoleAuthorization implements AuthorizationInterface
     /**
      * @var array
      */
-    private $roleHierarchy;
+    private $roleHierarchyResolver;
 
     /**
-     * @param array $roleHierarchy
+     * @param RoleHierarchyResolverInterface $roleHierarchyResolver
      */
-    public function __construct(array $roleHierarchy = [])
+    public function __construct(RoleHierarchyResolverInterface $roleHierarchyResolver)
     {
-        $this->roleHierarchy = $roleHierarchy;
+        $this->roleHierarchyResolver = $roleHierarchyResolver;
     }
 
     /**
@@ -47,30 +47,7 @@ final class RoleAuthorization implements AuthorizationInterface
      */
     private function getOwningRoles(UserInterface $user): array
     {
-        return $this->resolveRoleHierarchy($user->getRoles());
-    }
-
-    /**
-     * @param array $roles
-     * @param array $alreadySolvedRoles
-     *
-     * @return array
-     */
-    private function resolveRoleHierarchy(array $roles, array $alreadySolvedRoles = []): array
-    {
-        foreach ($roles as $role) {
-            if (isset($this->roleHierarchy[$role])) {
-                if (in_array($role, $alreadySolvedRoles, true)) {
-                    continue;
-                }
-
-                $alreadySolvedRoles[] = $role;
-                $resolveRoles = $this->resolveRoleHierarchy($this->roleHierarchy[$role], $alreadySolvedRoles);
-                $roles = array_merge($roles, $resolveRoles);
-            }
-        }
-
-        return array_unique($roles);
+        return $this->roleHierarchyResolver->resolve($user->getRoles());
     }
 
     /**
