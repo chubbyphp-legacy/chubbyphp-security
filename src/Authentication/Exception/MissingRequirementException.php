@@ -13,6 +13,6 @@ final class MissingRequirementException extends \RuntimeException implements Aut
      */
     public static function create(array $fields): self
     {
-        return new self(sprintf('Missing required criteria %s', implode(', ', $fields)));
+        return new self(sprintf('missing required fields %s', implode(', ', $fields)));
     }
 }

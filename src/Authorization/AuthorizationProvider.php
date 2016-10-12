@@ -35,7 +35,10 @@ final class AuthorizationProvider implements ServiceProviderInterface
         };
 
         $container['security.authorization.rolehierarchyresolver'] = function () use ($container) {
-            return new RoleHierarchyResolver($container['security.authorization.rolehierarchy']);
+            return new RoleHierarchyResolver(
+                $container['security.authorization.rolehierarchy'],
+                $container['logger'] ?? null
+            );
         };
     }
 }

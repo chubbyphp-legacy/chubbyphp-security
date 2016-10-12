@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Security\Authorization;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
 final class RoleHierarchyResolver implements RoleHierarchyResolverInterface
 {
     /**
@@ -12,11 +15,17 @@ final class RoleHierarchyResolver implements RoleHierarchyResolverInterface
     private $roleHierarchy;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param array $roleHierarchy
      */
-    public function __construct(array $roleHierarchy = [])
+    public function __construct(array $roleHierarchy = [], LoggerInterface $logger = null)
     {
         $this->roleHierarchy = $roleHierarchy;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -26,7 +35,15 @@ final class RoleHierarchyResolver implements RoleHierarchyResolverInterface
      */
     public function resolve(array $roles): array
     {
-        return $this->resolveRoleHierarchy($roles);
+        $resolvedRoles = array_unique($this->resolveRoleHierarchy($roles));
+        sort($resolvedRoles);
+
+        $this->logger->info(
+            'security.authorization.rolehierarchyresolver: resolved roles {resolvedRoles} by given roles {roles}',
+            ['resolvedRoles' => implode(', ', $resolvedRoles), 'roles' => implode(', ', $roles)]
+        );
+
+        return $resolvedRoles;
     }
 
     /**
@@ -49,8 +66,6 @@ final class RoleHierarchyResolver implements RoleHierarchyResolverInterface
             }
         }
 
-        sort($roles);
-
-        return array_unique($roles);
+        return $roles;
     }
 }

@@ -3,12 +3,15 @@
 namespace Chubbyphp\Tests\Security\Authorization;
 
 use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
+use Chubbyphp\Tests\Security\LoggerTestTrait;
 
 /**
  * @covers Chubbyphp\Security\Authorization\RoleHierarchyResolver
  */
 final class RoleHierarchyResolverTest extends \PHPUnit_Framework_TestCase
 {
+    use LoggerTestTrait;
+
     public function testWithoutHierarchy()
     {
         $resolver = new RoleHierarchyResolver();

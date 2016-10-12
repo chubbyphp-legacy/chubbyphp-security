@@ -13,6 +13,6 @@ final class UserNotFoundExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $exception = UserNotFoundException::create(['username' => 'username']);
 
-        self::assertSame('User not found with criteria username: username', $exception->getMessage());
+        self::assertSame('user not found with criteria username: username', $exception->getMessage());
     }
 }

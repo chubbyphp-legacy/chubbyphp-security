@@ -11,8 +11,8 @@ final class InvalidPasswordExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testException()
     {
-        $exception = InvalidPasswordException::create();
+        $exception = InvalidPasswordException::create(['username' => 'username']);
 
-        self::assertSame(InvalidPasswordException::MESSAGE, $exception->getMessage());
+        self::assertSame('invalid password for user with criteria username: username', $exception->getMessage());
     }
 }

@@ -12,7 +12,9 @@
     "require": {
         "php": "~7.0",
         "chubbyphp/chubbyphp-error-handler": "~1.0@dev",
-        "chubbyphp/chubbyphp-model": "~1.0@dev"
+        "chubbyphp/chubbyphp-model": "~1.0@dev",
+        "psr/http-message": "~1.0",
+        "psr/log": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.5",

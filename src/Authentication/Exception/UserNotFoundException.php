@@ -13,7 +13,7 @@ final class UserNotFoundException extends \RuntimeException implements Authentic
      */
     public static function create(array $criteria): self
     {
-        return new self(sprintf('User not found with criteria %s', self::getCriteriaAsSting($criteria)));
+        return new self(sprintf('user not found with criteria %s', self::getCriteriaAsSting($criteria)));
     }
 
     /**

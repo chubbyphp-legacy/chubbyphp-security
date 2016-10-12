@@ -6,7 +6,7 @@ namespace Chubbyphp\Security\Authentication\Exception;
 
 final class EmptyPasswordException extends \RuntimeException implements AuthenticationExceptionInterface
 {
-    const MESSAGE = 'Empty password';
+    const MESSAGE = 'empty  password';
 
     /**
      * @return EmptyPasswordException

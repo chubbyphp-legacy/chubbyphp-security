@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Chubbyphp\Security\Authorization;
 
 use Chubbyphp\Security\UserInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 final class RoleAuthorization implements AuthorizationInterface
 {
@@ -14,11 +16,17 @@ final class RoleAuthorization implements AuthorizationInterface
     private $roleHierarchyResolver;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param RoleHierarchyResolverInterface $roleHierarchyResolver
      */
-    public function __construct(RoleHierarchyResolverInterface $roleHierarchyResolver)
+    public function __construct(RoleHierarchyResolverInterface $roleHierarchyResolver, LoggerInterface $logger = null)
     {
         $this->roleHierarchyResolver = $roleHierarchyResolver;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -31,13 +39,25 @@ final class RoleAuthorization implements AuthorizationInterface
     public function isGranted(UserInterface $user, $attributes, OwnedByUserModelInterface $model = null): bool
     {
         if (null !== $model && $user->getId() !== $model->getOwnedByUserId()) {
+            $this->logger->info(
+                'security.authorization.role: user and model owner are not the same {userId}, {ownerByUserId}',
+                ['userId' => $user->getId(), 'ownerByUserId' => $model->getOwnedByUserId()]
+            );
+
             return false;
         }
 
         $owningRoles = $this->getOwningRoles($user);
         $neededRoles = $this->getNeededRoles($attributes);
 
-        return $this->checkRoles($owningRoles, $neededRoles);
+        $granted = $this->checkRoles($owningRoles, $neededRoles);
+
+        $this->logger->info(
+            'security.authorization.role: user {userId} granted {granted} for needed roles {neededRoles}',
+            ['userId' => $user->getId(), 'granted' => $granted, 'neededRoles' => implode(', ', $neededRoles)]
+        );
+
+        return $granted;
     }
 
     /**

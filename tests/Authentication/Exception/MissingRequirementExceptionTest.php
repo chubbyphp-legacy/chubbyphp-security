@@ -13,6 +13,6 @@ final class MissingRequirementExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $exception = MissingRequirementException::create(['username', 'password']);
 
-        self::assertSame('Missing required criteria username, password', $exception->getMessage());
+        self::assertSame('missing required fields username, password', $exception->getMessage());
     }
 }

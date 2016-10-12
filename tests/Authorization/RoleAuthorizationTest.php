@@ -6,12 +6,15 @@ use Chubbyphp\Security\Authorization\OwnedByUserModelInterface;
 use Chubbyphp\Security\Authorization\RoleAuthorization;
 use Chubbyphp\Security\Authorization\RoleHierarchyResolverInterface;
 use Chubbyphp\Security\UserInterface;
+use Chubbyphp\Tests\Security\LoggerTestTrait;
 
 /**
  * @covers Chubbyphp\Security\Authorization\RoleAuthorization
  */
 final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
 {
+    use LoggerTestTrait;
+
     public function testWithoutHierarchy()
     {
         $authorization = new RoleAuthorization($this->getRoleHierarchyResolver());
