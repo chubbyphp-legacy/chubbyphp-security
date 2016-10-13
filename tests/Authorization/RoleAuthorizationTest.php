@@ -17,24 +17,62 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutHierarchy()
     {
-        $authorization = new RoleAuthorization($this->getRoleHierarchyResolver());
+        $logger = $this->getLogger();
+
+        $authorization = new RoleAuthorization($this->getRoleHierarchyResolver(), $logger);
 
         self::assertFalse($authorization->isGranted($this->getUser('id1', ['USER_VIEW']), ['USER_EDIT', 'USER_VIEW']));
         self::assertTrue($authorization->isGranted($this->getUser('id1', ['USER_EDIT', 'USER_VIEW']), ['USER_VIEW']));
+
+        self::assertCount(2, $logger->__logs);
+        self::assertSame('info', $logger->__logs[0]['level']);
+        self::assertSame(
+            'security.authorization.role: user {userId} granted {granted} for needed roles {neededRoles}',
+            $logger->__logs[0]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'granted' => false, 'neededRoles' => 'USER_EDIT, USER_VIEW'],
+            $logger->__logs[0]['context']
+        );
+        self::assertSame('info', $logger->__logs[1]['level']);
+        self::assertSame(
+            'security.authorization.role: user {userId} granted {granted} for needed roles {neededRoles}',
+            $logger->__logs[1]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'granted' => true, 'neededRoles' => 'USER_VIEW'],
+            $logger->__logs[1]['context']
+        );
     }
 
     public function testWithHierarchy()
     {
+        $logger = $this->getLogger();
+
         $authorization = new RoleAuthorization(
-            $this->getRoleHierarchyResolver(['USER_EDIT', 'USER_VIEW'])
+            $this->getRoleHierarchyResolver(['USER_EDIT', 'USER_VIEW']),
+            $logger
         );
 
         self::assertTrue($authorization->isGranted($this->getUser('id1', ['ADMIN']), ['USER_EDIT', 'USER_VIEW']));
+
+        self::assertCount(1, $logger->__logs);
+        self::assertSame('info', $logger->__logs[0]['level']);
+        self::assertSame(
+            'security.authorization.role: user {userId} granted {granted} for needed roles {neededRoles}',
+            $logger->__logs[0]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'granted' => true, 'neededRoles' => 'USER_EDIT, USER_VIEW'],
+            $logger->__logs[0]['context']
+        );
     }
 
     public function testWithoutHierarchyAndModel()
     {
-        $authorization = new RoleAuthorization($this->getRoleHierarchyResolver());
+        $logger = $this->getLogger();
+
+        $authorization = new RoleAuthorization($this->getRoleHierarchyResolver(), $logger);
 
         self::assertFalse($authorization->isGranted(
             $this->getUser('id1', ['USER_VIEW']),
@@ -59,6 +97,44 @@ final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
             ['USER_VIEW'],
             $this->getModel('id2')
         ));
+
+        self::assertCount(4, $logger->__logs);
+        self::assertSame('info', $logger->__logs[0]['level']);
+        self::assertSame(
+            'security.authorization.role: user {userId} granted {granted} for needed roles {neededRoles}',
+            $logger->__logs[0]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'granted' => false, 'neededRoles' => 'USER_EDIT, USER_VIEW'],
+            $logger->__logs[0]['context']
+        );
+        self::assertSame('info', $logger->__logs[1]['level']);
+        self::assertSame(
+            'security.authorization.role: user {userId} granted {granted} for needed roles {neededRoles}',
+            $logger->__logs[1]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'granted' => true, 'neededRoles' => 'USER_VIEW'],
+            $logger->__logs[1]['context']
+        );
+        self::assertSame('info', $logger->__logs[2]['level']);
+        self::assertSame(
+            'security.authorization.role: user and model owner are not the same {userId}, {ownerByUserId}',
+            $logger->__logs[2]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'ownerByUserId' => 'id2'],
+            $logger->__logs[2]['context']
+        );
+        self::assertSame('info', $logger->__logs[3]['level']);
+        self::assertSame(
+            'security.authorization.role: user and model owner are not the same {userId}, {ownerByUserId}',
+            $logger->__logs[3]['message']
+        );
+        self::assertSame(
+            ['userId' => 'id1', 'ownerByUserId' => 'id2'],
+            $logger->__logs[3]['context']
+        );
     }
 
     /**
