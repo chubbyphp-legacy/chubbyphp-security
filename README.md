@@ -12,12 +12,12 @@ A simple security solution.
 ## Requirements
 
  * php: ~7.0
- * chubbyphp/chubbyphp-error-handler: ~1.0@dev
- * chubbyphp/chubbyphp-model: ~1.0@dev
+ * chubbyphp/chubbyphp-error-handler: ~1.0
+ * chubbyphp/chubbyphp-model: ~3.0@dev|~2.0|~1.0
 
 ## Suggest
 
- * chubbyphp/chubbyphp-session: ~1.0@dev
+ * chubbyphp/chubbyphp-session: ~1.0
  * pimple/pimple: ~3.0
 
 ## Installation
