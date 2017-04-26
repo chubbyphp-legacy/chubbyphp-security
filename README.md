@@ -4,6 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-security/downloads.png)](https://packagist.org/packages/chubbyphp/chubbyphp-security)
 [![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-security/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-security)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-security/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-security/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-security/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-security/?branch=master)
 
 ## Description
 
@@ -24,13 +25,17 @@ A simple security solution.
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-security][1].
 
+```sh
+composer require chubbyphp/chubbyphp-security "~1.0"
+```
+
 ## Usage
 
 ### Authentication
 
 #### AuthenticationProvider (Pimple)
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authentication\AuthenticationProvider;
@@ -50,7 +55,7 @@ $container['security.authentication']->isAuthenticated($request);
 
 #### AuthenticationMiddleware
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authentication\AuthenticationMiddleware;
@@ -62,7 +67,7 @@ $middleware($request, $response);
 
 #### FormAuthentication
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authentication\FormAuthentication;
@@ -78,7 +83,7 @@ $authentication->getAuthenticatedUser($request);
 
 #### PasswordManager
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authentication\PasswordManager;
@@ -92,7 +97,7 @@ $manager->verify('password', $hash);
 
 #### AuthorizationProvider (Pimple)
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authorization\AuthorizationProvider;
@@ -121,7 +126,7 @@ $container['security.authorization']->isGranted($user, 'USER_EDIT');
 
 #### RoleAuthorization
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authorization\RoleAuthorization;
@@ -140,7 +145,7 @@ $authorization->isGranted($user, 'USER_EDIT'); // true
 
 #### RoleHierarchyResolver
 
-```{.php}
+```php
 <?php
 
 use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
