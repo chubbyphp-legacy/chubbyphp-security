@@ -8,7 +8,7 @@ use Chubbyphp\Security\UserInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * @covers Chubbyphp\Security\Authentication\AuthenticationStack
+ * @covers \Chubbyphp\Security\Authentication\AuthenticationStack
  */
 final class AuthenticationStackTest extends \PHPUnit_Framework_TestCase
 {

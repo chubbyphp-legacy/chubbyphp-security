@@ -8,7 +8,7 @@ use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
 use Pimple\Container;
 
 /**
- * @covers Chubbyphp\Security\Authorization\AuthorizationProvider
+ * @covers \Chubbyphp\Security\Authorization\AuthorizationProvider
  */
 final class AuthorizationProviderTest extends \PHPUnit_Framework_TestCase
 {

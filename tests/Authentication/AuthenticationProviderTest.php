@@ -9,7 +9,7 @@ use Chubbyphp\Security\Authentication\PasswordManager;
 use Pimple\Container;
 
 /**
- * @covers Chubbyphp\Security\Authentication\AuthenticationProvider
+ * @covers \Chubbyphp\Security\Authentication\AuthenticationProvider
  */
 final class AuthenticationProviderTest extends \PHPUnit_Framework_TestCase
 {

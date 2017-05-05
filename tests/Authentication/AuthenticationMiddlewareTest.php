@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 /**
- * @covers Chubbyphp\Security\Authentication\AuthenticationMiddleware
+ * @covers \Chubbyphp\Security\Authentication\AuthenticationMiddleware
  */
 final class AuthenticationMiddlewareTest extends \PHPUnit_Framework_TestCase
 {

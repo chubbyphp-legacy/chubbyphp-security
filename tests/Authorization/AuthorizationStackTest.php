@@ -8,7 +8,7 @@ use Chubbyphp\Security\Authorization\OwnedByUserModelInterface;
 use Chubbyphp\Security\UserInterface;
 
 /**
- * @covers Chubbyphp\Security\Authorization\AuthorizationStack
+ * @covers \Chubbyphp\Security\Authorization\AuthorizationStack
  */
 final class AuthorizationStackTest extends \PHPUnit_Framework_TestCase
 {

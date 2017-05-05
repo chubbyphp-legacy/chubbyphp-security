@@ -14,7 +14,7 @@ use Chubbyphp\Tests\Security\LoggerTestTrait;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * @covers Chubbyphp\Security\Authentication\FormAuthentication
+ * @covers \Chubbyphp\Security\Authentication\FormAuthentication
  */
 final class FormAuthenticationTest extends \PHPUnit_Framework_TestCase
 {

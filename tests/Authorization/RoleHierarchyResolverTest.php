@@ -6,7 +6,7 @@ use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
 use Chubbyphp\Tests\Security\LoggerTestTrait;
 
 /**
- * @covers Chubbyphp\Security\Authorization\RoleHierarchyResolver
+ * @covers \Chubbyphp\Security\Authorization\RoleHierarchyResolver
  */
 final class RoleHierarchyResolverTest extends \PHPUnit_Framework_TestCase
 {

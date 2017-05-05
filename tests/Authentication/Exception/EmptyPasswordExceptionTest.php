@@ -5,7 +5,7 @@ namespace Chubbyphp\Tests\Security\Authentication\Exception;
 use Chubbyphp\Security\Authentication\Exception\EmptyPasswordException;
 
 /**
- * @covers Chubbyphp\Security\Authentication\Exception\EmptyPasswordException
+ * @covers \Chubbyphp\Security\Authentication\Exception\EmptyPasswordException
  */
 final class EmptyPasswordExceptionTest extends \PHPUnit_Framework_TestCase
 {

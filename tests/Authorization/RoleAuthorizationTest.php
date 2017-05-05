@@ -9,7 +9,7 @@ use Chubbyphp\Security\UserInterface;
 use Chubbyphp\Tests\Security\LoggerTestTrait;
 
 /**
- * @covers Chubbyphp\Security\Authorization\RoleAuthorization
+ * @covers \Chubbyphp\Security\Authorization\RoleAuthorization
  */
 final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
 {

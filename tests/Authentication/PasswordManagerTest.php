@@ -6,7 +6,7 @@ use Chubbyphp\Security\Authentication\Exception\EmptyPasswordException;
 use Chubbyphp\Security\Authentication\PasswordManager;
 
 /**
- * @covers Chubbyphp\Security\Authentication\PasswordManager
+ * @covers \Chubbyphp\Security\Authentication\PasswordManager
  */
 final class PasswordManagerTest extends \PHPUnit_Framework_TestCase
 {
