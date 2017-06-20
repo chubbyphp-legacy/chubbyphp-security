@@ -122,6 +122,8 @@ final class FormAuthentication implements AuthenticationInterface
     public function logout(Request $request)
     {
         if (!$this->checkForUserIdWithinSession($request)) {
+            $this->logger->warning('security.authentication.form: logout not authenticated');
+
             return;
         }
 

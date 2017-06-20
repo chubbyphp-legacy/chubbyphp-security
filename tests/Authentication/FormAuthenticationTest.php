@@ -206,6 +206,28 @@ final class FormAuthenticationTest extends \PHPUnit_Framework_TestCase
         self::assertSame(['id' => 'id1'], $logger->__logs[0]['context']);
     }
 
+    public function testLogoutWithoutSession()
+    {
+        $session = $this->getSession();
+        $logger = $this->getLogger();
+
+        $authentication = new FormAuthentication(
+            $this->getPasswordManager(),
+            $session,
+            $this->getRepository(),
+            $logger
+        );
+
+        $authentication->logout($this->getRequest([]));
+
+        self::assertArrayNotHasKey(FormAuthentication::USER_KEY, $session->__storage);
+
+        self::assertCount(1, $logger->__logs);
+        self::assertSame('warning', $logger->__logs[0]['level']);
+        self::assertSame('security.authentication.form: logout not authenticated', $logger->__logs[0]['message']);
+        self::assertSame([], $logger->__logs[0]['context']);
+    }
+
     public function testLogout()
     {
         $session = $this->getSession();
