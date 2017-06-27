@@ -53,7 +53,31 @@ $container->extend('security.authentication.authentications', function (array $a
 $container['security.authentication']->isAuthenticated($request);
 ```
 
-#### AuthenticationMiddleware
+#### AuthenticationErrorResponseMiddleware
+
+```php
+<?php
+
+use Chubbyphp\Security\Authentication\AuthenticationErrorHandlerInterface;
+use Chubbyphp\Security\Authentication\AuthenticationErrorResponseMiddleware;
+use Chubbyphp\Security\Authentication\FormAuthentication;
+
+$middleware = new AuthenticationErrorResponseMiddleware(
+    new FormAuthentication(...),
+    new class() implements AuthenticationErrorHandlerInterface {
+        public function errorResponse(
+            Request $request,
+            Response $response,
+            int $code
+        ): Response {
+            return $response->withStatus($code);
+        }
+    }
+);
+$middleware($request, $response);
+```
+
+#### AuthenticationMiddleware (deprecated)
 
 ```php
 <?php
