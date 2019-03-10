@@ -25,7 +25,7 @@ A simple security solution.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-security][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-security "~1.0"
+composer require chubbyphp/chubbyphp-security "^1.2"
 ```
 
 ## Usage
