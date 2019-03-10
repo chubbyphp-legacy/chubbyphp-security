@@ -14,7 +14,6 @@ A simple security solution.
 
  * php: ~7.0
  * chubbyphp/chubbyphp-error-handler: ~1.0
- * chubbyphp/chubbyphp-model: ~3.0|~2.0|~1.0
 
 ## Suggest
 
