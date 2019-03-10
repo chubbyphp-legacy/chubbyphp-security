@@ -5,12 +5,13 @@ namespace Chubbyphp\Tests\Security\Authorization;
 use Chubbyphp\Security\Authorization\AuthorizationProvider;
 use Chubbyphp\Security\Authorization\AuthorizationStack;
 use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
+use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 
 /**
  * @covers \Chubbyphp\Security\Authorization\AuthorizationProvider
  */
-final class AuthorizationProviderTest extends \PHPUnit_Framework_TestCase
+final class AuthorizationProviderTest extends TestCase
 {
     public function testRegister()
     {

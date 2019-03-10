@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Security;
 
-use Chubbyphp\Model\ModelInterface;
-
-interface UserInterface extends ModelInterface
+interface UserInterface
 {
+    /**
+     * @return string
+     */
+    public function getId(): string;
+
     /**
      * @return string
      */

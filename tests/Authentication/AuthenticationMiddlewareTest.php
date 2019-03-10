@@ -5,13 +5,14 @@ namespace Chubbyphp\Tests\Security\Authentication;
 use Chubbyphp\ErrorHandler\HttpException;
 use Chubbyphp\Security\Authentication\AuthenticationInterface;
 use Chubbyphp\Security\Authentication\AuthenticationMiddleware;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\AuthenticationMiddleware
  */
-final class AuthenticationMiddlewareTest extends \PHPUnit_Framework_TestCase
+final class AuthenticationMiddlewareTest extends TestCase
 {
     public function testWithoutAuthenticationHttpException()
     {

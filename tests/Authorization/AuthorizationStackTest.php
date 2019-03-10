@@ -6,11 +6,12 @@ use Chubbyphp\Security\Authorization\AuthorizationInterface;
 use Chubbyphp\Security\Authorization\AuthorizationStack;
 use Chubbyphp\Security\Authorization\OwnedByUserModelInterface;
 use Chubbyphp\Security\UserInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Security\Authorization\AuthorizationStack
  */
-final class AuthorizationStackTest extends \PHPUnit_Framework_TestCase
+final class AuthorizationStackTest extends TestCase
 {
     public function testIsAuthorizedWithoutGrant()
     {

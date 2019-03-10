@@ -4,11 +4,12 @@ namespace Chubbyphp\Tests\Security\Authorization;
 
 use Chubbyphp\Security\Authorization\RoleHierarchyResolver;
 use Chubbyphp\Tests\Security\LoggerTestTrait;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Security\Authorization\RoleHierarchyResolver
  */
-final class RoleHierarchyResolverTest extends \PHPUnit_Framework_TestCase
+final class RoleHierarchyResolverTest extends TestCase
 {
     use LoggerTestTrait;
 

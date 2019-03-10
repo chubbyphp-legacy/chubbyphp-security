@@ -20,7 +20,7 @@ final class AuthenticationErrorResponseMiddleware
     private $errorResponseHandler;
 
     /**
-     * @param AuthenticationInterface $authentication
+     * @param AuthenticationInterface             $authentication
      * @param AuthenticationErrorHandlerInterface $errorResponseHandler
      */
     public function __construct(

@@ -8,14 +8,15 @@ use Chubbyphp\Security\Authentication\AuthenticationErrorResponseMiddleware;
 use Chubbyphp\Security\Authentication\AuthenticationProvider;
 use Chubbyphp\Security\Authentication\AuthenticationStack;
 use Chubbyphp\Security\Authentication\PasswordManager;
+use PHPUnit\Framework\TestCase;
 use Pimple\Container;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\AuthenticationProvider
  */
-final class AuthenticationProviderTest extends \PHPUnit_Framework_TestCase
+final class AuthenticationProviderTest extends TestCase
 {
     public function testRegister()
     {

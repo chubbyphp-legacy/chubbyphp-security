@@ -2,21 +2,22 @@
 
 namespace Chubbyphp\Tests\Security\Authentication;
 
-use Chubbyphp\Model\RepositoryInterface;
 use Chubbyphp\Security\Authentication\Exception\InvalidPasswordException;
 use Chubbyphp\Security\Authentication\Exception\MissingRequirementException;
 use Chubbyphp\Security\Authentication\Exception\UserNotFoundException;
 use Chubbyphp\Security\Authentication\FormAuthentication;
 use Chubbyphp\Security\Authentication\PasswordManagerInterface;
 use Chubbyphp\Security\UserInterface;
+use Chubbyphp\Security\UserRepositoryInterface;
 use Chubbyphp\Session\SessionInterface;
 use Chubbyphp\Tests\Security\LoggerTestTrait;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\FormAuthentication
  */
-final class FormAuthenticationTest extends \PHPUnit_Framework_TestCase
+final class FormAuthenticationTest extends TestCase
 {
     use LoggerTestTrait;
 
@@ -439,14 +440,14 @@ final class FormAuthenticationTest extends \PHPUnit_Framework_TestCase
     /**
      * @param UserInterface|null $user
      *
-     * @return RepositoryInterface
+     * @return UserRepositoryInterface
      */
-    private function getRepository(UserInterface $user = null): RepositoryInterface
+    private function getRepository(UserInterface $user = null): UserRepositoryInterface
     {
         /* @var RepositoryInterface|\PHPUnit_Framework_MockObject_MockObject $session */
         $repository = $this
-            ->getMockBuilder(RepositoryInterface::class)
-            ->setMethods(['find', 'findOneBy'])
+            ->getMockBuilder(UserRepositoryInterface::class)
+            ->setMethods(['find', 'findByUsername'])
             ->getMockForAbstractClass()
         ;
 
@@ -466,13 +467,13 @@ final class FormAuthenticationTest extends \PHPUnit_Framework_TestCase
 
         $repository
             ->expects(self::any())
-            ->method('findOneBy')
-            ->willReturnCallback(function (array $criteria = []) use ($user) {
+            ->method('findByUsername')
+            ->willReturnCallback(function ($username) use ($user) {
                 if (null === $user) {
                     return null;
                 }
 
-                self::assertSame(['username' => $user->getUsername()], $criteria);
+                self::assertSame($user->getUsername(), $username);
 
                 return $user;
             })

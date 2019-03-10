@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Security\Authentication;
 
-use Chubbyphp\Model\RepositoryInterface;
 use Chubbyphp\Security\Authentication\Exception\AuthenticationExceptionInterface;
 use Chubbyphp\Security\Authentication\Exception\InvalidPasswordException;
 use Chubbyphp\Security\Authentication\Exception\MissingRequirementException;
 use Chubbyphp\Security\Authentication\Exception\UserNotFoundException;
+use Chubbyphp\Security\UserRepositoryInterface;
 use Chubbyphp\Session\SessionInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -29,7 +29,7 @@ final class FormAuthentication implements AuthenticationInterface
     const USER_KEY = 'u';
 
     /**
-     * @var RepositoryInterface
+     * @var UserRepositoryInterface|mixed
      */
     private $userRepository;
 
@@ -39,14 +39,14 @@ final class FormAuthentication implements AuthenticationInterface
     private $logger;
 
     /**
-     * @param PasswordManagerInterface $passwordManager
-     * @param SessionInterface         $session
-     * @param RepositoryInterface      $userRepository
+     * @param PasswordManagerInterface      $passwordManager
+     * @param SessionInterface              $session
+     * @param UserRepositoryInterface|mixed $userRepository
      */
     public function __construct(
         PasswordManagerInterface $passwordManager,
         SessionInterface $session,
-        RepositoryInterface $userRepository,
+        $userRepository,
         LoggerInterface $logger = null
     ) {
         $this->passwordManager = $passwordManager;
@@ -66,7 +66,7 @@ final class FormAuthentication implements AuthenticationInterface
         $this->checkingRequirements($data);
 
         /** @var UserPasswordInterface $user */
-        if (null === $user = $this->userRepository->findOneBy(['username' => $data['username']])) {
+        if (null === $user = $this->findByUsername($data['username'])) {
             $this->logger->warning(
                 'security.authentication.form: user not found with criteria {criteria}',
                 ['criteria' => $this->getCriteriaAsSting(['username' => $data['username']])]
@@ -92,7 +92,31 @@ final class FormAuthentication implements AuthenticationInterface
     }
 
     /**
-     * @param null|array|object $data
+     * @param string $username
+     *
+     * @return UserInterface|null
+     */
+    private function findByUsername(string $username)
+    {
+        if ($this->userRepository instanceof UserRepositoryInterface) {
+            return $this->userRepository->findByUsername($username);
+        }
+
+        return $this->userRepository->findOneBy(['username' => $username]);
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return UserInterface|null
+     */
+    private function find(string $id)
+    {
+        return $this->userRepository->find($id);
+    }
+
+    /**
+     * @param array|object|null $data
      */
     private function checkingRequirements($data)
     {
@@ -161,9 +185,7 @@ final class FormAuthentication implements AuthenticationInterface
 
         $id = $this->getUserIdFromSession($request);
 
-        $user = $this->userRepository->find($id);
-
-        if (null === $user) {
+        if (null === $user = $this->find($id)) {
             $this->logger->warning('security.authentication.form: user with id {id} is not resolvable', ['id' => $id]);
             $this->session->remove($request, self::USER_KEY);
 

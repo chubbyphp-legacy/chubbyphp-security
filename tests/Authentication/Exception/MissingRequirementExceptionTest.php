@@ -3,11 +3,12 @@
 namespace Chubbyphp\Tests\Security\Authentication\Exception;
 
 use Chubbyphp\Security\Authentication\Exception\MissingRequirementException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\Exception\MissingRequirementException
  */
-final class MissingRequirementExceptionTest extends \PHPUnit_Framework_TestCase
+final class MissingRequirementExceptionTest extends TestCase
 {
     public function testException()
     {

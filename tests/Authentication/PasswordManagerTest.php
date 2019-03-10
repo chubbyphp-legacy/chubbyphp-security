@@ -4,11 +4,12 @@ namespace Chubbyphp\Tests\Security\Authentication;
 
 use Chubbyphp\Security\Authentication\Exception\EmptyPasswordException;
 use Chubbyphp\Security\Authentication\PasswordManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\PasswordManager
  */
-final class PasswordManagerTest extends \PHPUnit_Framework_TestCase
+final class PasswordManagerTest extends TestCase
 {
     public function testHashEmpty()
     {

@@ -7,11 +7,12 @@ use Chubbyphp\Security\Authorization\RoleAuthorization;
 use Chubbyphp\Security\Authorization\RoleHierarchyResolverInterface;
 use Chubbyphp\Security\UserInterface;
 use Chubbyphp\Tests\Security\LoggerTestTrait;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Security\Authorization\RoleAuthorization
  */
-final class RoleAuthorizationTest extends \PHPUnit_Framework_TestCase
+final class RoleAuthorizationTest extends TestCase
 {
     use LoggerTestTrait;
 

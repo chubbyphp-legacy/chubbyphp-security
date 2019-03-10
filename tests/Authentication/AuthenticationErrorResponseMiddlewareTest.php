@@ -3,15 +3,16 @@
 namespace Chubbyphp\Tests\Security\Authentication;
 
 use Chubbyphp\Security\Authentication\AuthenticationErrorHandlerInterface;
-use Chubbyphp\Security\Authentication\AuthenticationInterface;
 use Chubbyphp\Security\Authentication\AuthenticationErrorResponseMiddleware;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Chubbyphp\Security\Authentication\AuthenticationInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\AuthenticationErrorResponseMiddleware
  */
-final class AuthenticationErrorResponseMiddlewareTest extends \PHPUnit_Framework_TestCase
+final class AuthenticationErrorResponseMiddlewareTest extends TestCase
 {
     public function testWithoutAuthenticationHttpException()
     {
@@ -103,7 +104,7 @@ final class AuthenticationErrorResponseMiddlewareTest extends \PHPUnit_Framework
         ;
 
         $response->__data = [
-            'code' => null
+            'code' => null,
         ];
 
         $response

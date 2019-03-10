@@ -5,12 +5,13 @@ namespace Chubbyphp\Tests\Security\Authentication;
 use Chubbyphp\Security\Authentication\AuthenticationInterface;
 use Chubbyphp\Security\Authentication\AuthenticationStack;
 use Chubbyphp\Security\UserInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Security\Authentication\AuthenticationStack
  */
-final class AuthenticationStackTest extends \PHPUnit_Framework_TestCase
+final class AuthenticationStackTest extends TestCase
 {
     public function testIsAuthenticatedWithoutUser()
     {
